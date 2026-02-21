@@ -1,27 +1,82 @@
-# Ecommerce
+# Assets Management System (Next.js + Spring Boot + PostgreSQL)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.1.
+Complete full-stack project for managing organizational assets with:
+- **Frontend:** Next.js (React + TypeScript)
+- **Backend:** Java Spring Boot REST API
+- **Database:** PostgreSQL
 
-## Development server
+## Project structure
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- `frontend/` → Next.js application
+- `backend/` → Spring Boot API
+- `docker-compose.yml` → run all services together
 
-## Code scaffolding
+## Features
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Create, list, edit, and delete assets
+- Asset fields: name, tag number, category, location, status, purchase date, purchase cost, notes
+- Validation and API-level error responses
+- CORS enabled for local frontend/backend integration
 
-## Build
+## Run with Docker (recommended)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+docker compose up --build
+```
 
-## Running unit tests
+Services:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8080/api/assets
+- PostgreSQL: localhost:5432
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Run locally without Docker
 
-## Running end-to-end tests
+### 1) Start PostgreSQL
+Create DB and user:
+- DB: `assets_db`
+- user: `assets_user`
+- password: `assets_pass`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### 2) Run backend
 
-## Further help
+```bash
+cd backend
+mvn spring-boot:run
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### 3) Run frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Set optional API URL:
+
+```bash
+export NEXT_PUBLIC_API_URL=http://localhost:8080/api
+```
+
+## API endpoints
+
+- `GET /api/assets`
+- `GET /api/assets/{id}`
+- `POST /api/assets`
+- `PUT /api/assets/{id}`
+- `DELETE /api/assets/{id}`
+
+### Example create payload
+
+```json
+{
+  "name": "MacBook Pro 14",
+  "tagNumber": "LAP-2026-001",
+  "category": "Laptop",
+  "location": "Head Office",
+  "status": "IN_USE",
+  "purchaseDate": "2026-01-12",
+  "purchaseCost": 2450.00,
+  "notes": "Assigned to engineering team"
+}
+```
